@@ -67,13 +67,13 @@ export default function Camps() {
 						<Link
 							key={index}
 							to={camp.link}
-							className={`rounded-3xl shadow-xl transform hover:scale-105 transition-all duration-300 ${camp.color} p-8 block cursor-pointer hover:shadow-2xl relative overflow-hidden group`}
+							className={`rounded-3xl shadow-xl transform hover:scale-105 transition-all duration-300 ${camp.color} p-8 block cursor-pointer hover:shadow-2xl relative overflow-hidden group flex flex-col h-full`}
 						>
 							{/* Decorative elements */}
 							<div className="absolute -top-2 -right-2 w-12 h-12 bg-white/20 rounded-full opacity-50 group-hover:opacity-100 transition-opacity duration-300"></div>
 							<div className="absolute -bottom-4 -left-4 w-16 h-16 bg-white/20 rounded-full opacity-30 group-hover:opacity-70 transition-opacity duration-300"></div>
 							
-							<div className="relative z-10">
+							<div className="relative z-10 flex flex-col h-full">
 								<div className="flex items-center justify-center mb-6 bg-white/20 backdrop-blur-sm rounded-full w-20 h-20 mx-auto shadow-lg">
 									{camp.icon}
 								</div>
@@ -85,13 +85,18 @@ export default function Camps() {
 										{camp.duration} &middot; {camp.format}
 									</p>
 								</div>
-								<p className="text-base text-gray-800 font-medium leading-relaxed">
+								<p className="text-base text-gray-800 font-medium leading-relaxed mb-6">
 									{camp.description}
 								</p>
 								
 								{/* Call to action */}
-								<div className="mt-6 bg-gradient-to-r from-white/40 to-white/20 backdrop-blur-sm rounded-xl p-3 border border-white/30">
-									<p className="text-sm font-bold text-gray-800">Click to Learn More →</p>
+								<div className="mt-auto">
+									<div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg transform group-hover:scale-105 transition-all duration-300 hover:shadow-xl">
+										<span className="flex items-center justify-center">
+											Learn More 
+											<span className="ml-2 transform group-hover:translate-x-1 transition-transform duration-300">→</span>
+										</span>
+									</div>
 								</div>
 							</div>
 						</Link>

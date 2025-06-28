@@ -87,6 +87,15 @@ export default function Header() {
     }, 100);
   };
 
+  const handleNavigateToAbout = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // Prevent page reload
+    navigate('/about');
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
   const handleStartBuilding = () => {
     navigate('/shop');
     // Scroll to top after navigation
@@ -101,6 +110,7 @@ export default function Header() {
     { name: 'Camps', href: '/camps', onClick: handleNavigateToCamps },
     { name: 'Shop', href: '/shop', onClick: handleNavigateToShop },
     { name: 'Support', href: '/#contact-us', onClick: handleScrollToContactUs },
+    { name: 'About', href: '/about', onClick: handleNavigateToAbout },
   ];
 
   const isActiveNavItem = (href: string) => {

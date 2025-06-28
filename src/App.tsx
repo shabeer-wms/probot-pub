@@ -11,6 +11,10 @@ import TwoDayCamp from './pages/TwoDayCamp';
 import OnlineCamp from './pages/OnlineCamp';
 import Shop from './pages/Shop';
 import CampRegistration from './pages/CampRegistration';
+import AboutUs from './pages/AboutUs';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import TermsOfService from './pages/TermsOfService';
+import CookiePolicy from './pages/CookiePolicy';
 
 function App() {
   return (
@@ -47,6 +51,22 @@ function App() {
           </>} />
           <Route path="/register" element={<>
             <CampRegistration />
+            <Footer />
+          </>} />
+          <Route path="/about" element={<>
+            <AboutUs />
+            <Footer />
+          </>} />
+          <Route path="/privacy" element={<>
+            <PrivacyPolicy />
+            <Footer />
+          </>} />
+          <Route path="/terms" element={<>
+            <TermsOfService />
+            <Footer />
+          </>} />
+          <Route path="/cookies" element={<>
+            <CookiePolicy />
             <Footer />
           </>} />
         </Routes>

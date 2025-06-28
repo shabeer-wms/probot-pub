@@ -3,11 +3,27 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FaArrowLeft, FaUser, FaCalendar, FaMapMarkerAlt, FaCheckCircle, FaExclamationTriangle, FaChild, FaGraduationCap, FaCreditCard } from 'react-icons/fa';
 
 interface FormData {
+  // Registration Type
+  registrationType: 'individual' | 'institution';
+  
   // Student Information
   studentName: string;
   age: string;
   grade: string;
   school: string;
+  
+  // Institution Information (for bulk registration)
+  institutionName: string;
+  institutionType: string;
+  contactPersonName: string;
+  contactPersonTitle: string;
+  institutionEmail: string;
+  institutionPhone: string;
+  institutionAddress: string;
+  numberOfStudents: string;
+  ageRangeMin: string;
+  ageRangeMax: string;
+  preferredProgram: string;
   
   // Parent/Guardian Information
   parentName: string;
@@ -54,10 +70,22 @@ export default function CampRegistration() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
+    registrationType: 'individual',
     studentName: '',
     age: '',
     grade: '',
     school: '',
+    institutionName: '',
+    institutionType: '',
+    contactPersonName: '',
+    contactPersonTitle: '',
+    institutionEmail: '',
+    institutionPhone: '',
+    institutionAddress: '',
+    numberOfStudents: '',
+    ageRangeMin: '',
+    ageRangeMax: '',
+    preferredProgram: '',
     parentName: '',
     email: '',
     phone: '',
@@ -150,20 +178,40 @@ export default function CampRegistration() {
   const validateStep = (step: number): boolean => {
     switch (step) {
       case 1:
-        return !!(formData.studentName && formData.age && formData.grade);
+        return !!(formData.registrationType);
       case 2:
-        return !!(formData.parentName && formData.email && formData.phone);
+        if (formData.registrationType === 'individual') {
+          return !!(formData.studentName && formData.age && formData.grade);
+        } else {
+          return !!(formData.institutionName && formData.institutionType && formData.contactPersonName && 
+                   formData.contactPersonTitle && formData.institutionEmail && formData.institutionPhone && 
+                   formData.numberOfStudents && formData.ageRangeMin && formData.ageRangeMax);
+        }
       case 3:
-        return !!(formData.campType && formData.preferredDate && formData.preferredTime);
+        if (formData.registrationType === 'individual') {
+          return !!(formData.parentName && formData.email && formData.phone);
+        } else {
+          return !!(formData.campType && formData.preferredDate && formData.preferredTime);
+        }
       case 4:
-        return !!(formData.emergencyContact && formData.emergencyPhone);
+        if (formData.registrationType === 'individual') {
+          return !!(formData.campType && formData.preferredDate && formData.preferredTime);
+        } else {
+          return !!(formData.emergencyContact && formData.emergencyPhone);
+        }
+      case 5:
+        if (formData.registrationType === 'individual') {
+          return !!(formData.emergencyContact && formData.emergencyPhone);
+        } else {
+          return true; // Institution review step
+        }
       default:
         return true;
     }
   };
 
   const nextStep = () => {
-    if (validateStep(currentStep) && currentStep < 5) {
+    if (validateStep(currentStep) && currentStep < 6) {
       setCurrentStep(currentStep + 1);
     }
   };
@@ -184,27 +232,48 @@ export default function CampRegistration() {
       setSubmitSuccess(true);
       
       // Send email with registration details
-      const subject = `Camp Registration - ${currentCamp.name}`;
-      const body = `
+      const subject = `Camp Registration - ${currentCamp.name} (${formData.registrationType === 'individual' ? 'Individual' : 'Institution'})`;
+      
+      let body = `
 New Camp Registration:
 
-Student Information:
+Registration Type: ${formData.registrationType === 'individual' ? 'Individual Student' : 'Institution/School'}
+
+`;
+
+      if (formData.registrationType === 'individual') {
+        body += `Student Information:
 - Name: ${formData.studentName}
 - Age: ${formData.age}
 - Grade: ${formData.grade}
-- School: ${formData.school}
+- School: ${formData.school || 'Not specified'}
 
 Parent/Guardian Information:
 - Name: ${formData.parentName}
 - Email: ${formData.email}
 - Phone: ${formData.phone}
-- Address: ${formData.address}
+- Address: ${formData.address || 'Not provided'}
+`;
+      } else {
+        body += `Institution Information:
+- Institution Name: ${formData.institutionName}
+- Institution Type: ${formData.institutionType}
+- Number of Students: ${formData.numberOfStudents}
+- Age Range: ${formData.ageRangeMin}-${formData.ageRangeMax} years
+- Contact Person: ${formData.contactPersonName} (${formData.contactPersonTitle})
+- Email: ${formData.institutionEmail}
+- Phone: ${formData.institutionPhone}
+- Address: ${formData.institutionAddress || 'Not provided'}
+- Preferred Program: ${formData.preferredProgram || 'Not specified'}
+`;
+      }
 
+      body += `
 Camp Details:
 - Camp: ${currentCamp.name}
 - Preferred Date: ${formData.preferredDate}
 - Preferred Time: ${formData.preferredTime}
-- Price: ₹${currentCamp.price.toLocaleString('en-IN')}
+- Price: ₹${currentCamp.price.toLocaleString('en-IN')}${formData.registrationType === 'institution' ? ' (before bulk discount)' : ''}
 
 Experience Level: ${formData.experience}
 Medical Conditions: ${formData.medicalConditions || 'None'}
@@ -231,15 +300,28 @@ Please process this registration and send confirmation details.
               Registration Submitted!
             </h1>
             <p className="text-lg text-gray-600 mb-8">
-              Thank you for registering for the {currentCamp.name}. We'll contact you within 24 hours with confirmation details and payment instructions.
+              Thank you for registering for the {currentCamp.name}. 
+              {formData.registrationType === 'institution' 
+                ? ' Our institutional team will contact you within 24 hours to discuss your requirements and provide a customized quote.'
+                : ' We\'ll contact you within 24 hours with confirmation details and payment instructions.'
+              }
             </p>
             <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
               <h3 className="font-bold text-green-800 mb-2">What's Next?</h3>
               <ul className="text-green-700 text-sm space-y-1 text-left">
                 <li>• Check your email for a registration confirmation</li>
                 <li>• Our team will call you within 24 hours</li>
-                <li>• Complete payment to secure your spot</li>
-                <li>• Receive camp kit and joining instructions</li>
+                {formData.registrationType === 'institution' ? (
+                  <>
+                    <li>• Receive customized proposal and pricing</li>
+                    <li>• Schedule program delivery details</li>
+                  </>
+                ) : (
+                  <>
+                    <li>• Complete payment to secure your spot</li>
+                    <li>• Receive camp kit and joining instructions</li>
+                  </>
+                )}
               </ul>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -376,20 +458,334 @@ Please process this registration and send confirmation details.
               {/* Progress Bar */}
               <div className="mb-8">
                 <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-medium text-gray-500">Step {currentStep} of 5</span>
-                  <span className="text-sm font-medium text-indigo-600">{Math.round((currentStep / 5) * 100)}% Complete</span>
+                  <span className="text-sm font-medium text-gray-500">
+                    Step {currentStep} of {formData.registrationType === 'individual' ? '6' : '5'}
+                  </span>
+                  <span className="text-sm font-medium text-indigo-600">
+                    {Math.round((currentStep / (formData.registrationType === 'individual' ? 6 : 5)) * 100)}% Complete
+                  </span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div 
                     className="bg-gradient-to-r from-indigo-500 to-purple-600 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(currentStep / 5) * 100}%` }}
+                    style={{ width: `${(currentStep / (formData.registrationType === 'individual' ? 6 : 5)) * 100}%` }}
                   ></div>
                 </div>
               </div>
 
               <form onSubmit={handleSubmit}>
-                {/* Step 1: Student Information */}
+                {/* Step 1: Registration Type Selection */}
                 {currentStep === 1 && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-8">
+                      <h3 className="text-2xl font-bold text-gray-800 mb-4">Choose Registration Type</h3>
+                      <p className="text-gray-600">Select whether you're registering as an individual or representing a school/institution</p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {/* Individual Registration */}
+                      <div 
+                        onClick={() => setFormData(prev => ({ ...prev, registrationType: 'individual' }))}
+                        className={`relative border-2 rounded-3xl p-8 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                          formData.registrationType === 'individual' 
+                            ? 'border-indigo-500 bg-indigo-50 shadow-lg' 
+                            : 'border-gray-200 hover:border-indigo-300'
+                        }`}
+                      >
+                        <div className="text-center">
+                          <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                            formData.registrationType === 'individual' 
+                              ? 'bg-indigo-500 text-white' 
+                              : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            <FaUser className="text-2xl" />
+                          </div>
+                          <h4 className="text-xl font-bold text-gray-800 mb-2">Individual Student</h4>
+                          <p className="text-gray-600 text-sm mb-4">Register for 1 student</p>
+                          <ul className="text-left text-sm text-gray-600 space-y-1">
+                            <li>• Perfect for homeschooling families</li>
+                            <li>• Personalized attention</li>
+                            <li>• Flexible scheduling</li>
+                            <li>• Parent involvement encouraged</li>
+                          </ul>
+                        </div>
+                        {formData.registrationType === 'individual' && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-indigo-500 rounded-full flex items-center justify-center">
+                            <FaCheckCircle className="text-white text-sm" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Institution Registration */}
+                      <div 
+                        onClick={() => setFormData(prev => ({ ...prev, registrationType: 'institution' }))}
+                        className={`relative border-2 rounded-3xl p-8 cursor-pointer transition-all duration-300 transform hover:scale-105 ${
+                          formData.registrationType === 'institution' 
+                            ? 'border-purple-500 bg-purple-50 shadow-lg' 
+                            : 'border-gray-200 hover:border-purple-300'
+                        }`}
+                      >
+                        <div className="text-center">
+                          <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                            formData.registrationType === 'institution' 
+                              ? 'bg-purple-500 text-white' 
+                              : 'bg-gray-100 text-gray-600'
+                          }`}>
+                            <FaGraduationCap className="text-2xl" />
+                          </div>
+                          <h4 className="text-xl font-bold text-gray-800 mb-2">School/Institution</h4>
+                          <p className="text-gray-600 text-sm mb-4">Register multiple students (5+)</p>
+                          <ul className="text-left text-sm text-gray-600 space-y-1">
+                            <li>• Bulk registration discounts</li>
+                            <li>• Customized curriculum</li>
+                            <li>• On-site or virtual delivery</li>
+                            <li>• Teacher training included</li>
+                          </ul>
+                        </div>
+                        {formData.registrationType === 'institution' && (
+                          <div className="absolute -top-2 -right-2 w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center">
+                            <FaCheckCircle className="text-white text-sm" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {formData.registrationType === 'institution' && (
+                      <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 mt-6">
+                        <h5 className="font-bold text-purple-800 mb-2">Institution Benefits:</h5>
+                        <div className="grid md:grid-cols-2 gap-4 text-sm text-purple-700">
+                          <div>
+                            <p className="font-semibold">• Volume Discounts:</p>
+                            <p className="ml-4">20% off for 10+ students</p>
+                            <p className="ml-4">30% off for 25+ students</p>
+                          </div>
+                          <div>
+                            <p className="font-semibold">• Additional Services:</p>
+                            <p className="ml-4">Curriculum integration support</p>
+                            <p className="ml-4">Progress tracking dashboard</p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Step 2: Student Information (Individual) or Institution Information */}
+                {currentStep === 2 && formData.registrationType === 'institution' && (
+                  <div className="space-y-6">
+                    <div className="text-center mb-8">
+                      <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-indigo-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <FaGraduationCap className="text-white text-2xl" />
+                      </div>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">Institution Information</h2>
+                      <p className="text-gray-600">Tell us about your school or institution</p>
+                    </div>
+
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="sm:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Institution Name *
+                        </label>
+                        <input
+                          type="text"
+                          name="institutionName"
+                          value={formData.institutionName}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                          placeholder="Enter institution/school name"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Institution Type *
+                        </label>
+                        <select
+                          name="institutionType"
+                          value={formData.institutionType}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        >
+                          <option value="">Select type</option>
+                          <option value="public-school">Public School</option>
+                          <option value="private-school">Private School</option>
+                          <option value="international-school">International School</option>
+                          <option value="coaching-center">Coaching Center</option>
+                          <option value="university">University/College</option>
+                          <option value="ngo">NGO/Non-Profit</option>
+                          <option value="other">Other</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Number of Students *
+                        </label>
+                        <select
+                          name="numberOfStudents"
+                          value={formData.numberOfStudents}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        >
+                          <option value="">Select range</option>
+                          <option value="5-10">5-10 students</option>
+                          <option value="11-20">11-20 students</option>
+                          <option value="21-30">21-30 students</option>
+                          <option value="31-50">31-50 students</option>
+                          <option value="51+">51+ students</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Age Range (Min) *
+                        </label>
+                        <select
+                          name="ageRangeMin"
+                          value={formData.ageRangeMin}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        >
+                          <option value="">Min age</option>
+                          {Array.from({ length: 13 }, (_, i) => i + 8).map(age => (
+                            <option key={age} value={age}>{age} years</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Age Range (Max) *
+                        </label>
+                        <select
+                          name="ageRangeMax"
+                          value={formData.ageRangeMax}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        >
+                          <option value="">Max age</option>
+                          {Array.from({ length: 13 }, (_, i) => i + 8).map(age => (
+                            <option key={age} value={age}>{age} years</option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Contact Person Name *
+                        </label>
+                        <input
+                          type="text"
+                          name="contactPersonName"
+                          value={formData.contactPersonName}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                          placeholder="Primary contact person name"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Contact Person Title *
+                        </label>
+                        <input
+                          type="text"
+                          name="contactPersonTitle"
+                          value={formData.contactPersonTitle}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                          placeholder="e.g., Principal, Coordinator, Teacher"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Institution Email *
+                        </label>
+                        <input
+                          type="email"
+                          name="institutionEmail"
+                          value={formData.institutionEmail}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                          placeholder="institution@example.com"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Institution Phone *
+                        </label>
+                        <input
+                          type="tel"
+                          name="institutionPhone"
+                          value={formData.institutionPhone}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                          placeholder="+91 98765 43210"
+                        />
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Institution Address
+                        </label>
+                        <textarea
+                          name="institutionAddress"
+                          value={formData.institutionAddress}
+                          onChange={handleInputChange}
+                          rows={3}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                          placeholder="Full address of the institution"
+                        />
+                      </div>
+
+                      <div className="sm:col-span-2">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Preferred Program
+                        </label>
+                        <select
+                          name="preferredProgram"
+                          value={formData.preferredProgram}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        >
+                          <option value="">Select preferred program</option>
+                          <option value="on-site">On-site at your institution</option>
+                          <option value="our-center">At our center</option>
+                          <option value="hybrid">Hybrid (combination)</option>
+                          <option value="virtual">Virtual/Online</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
+                      <h5 className="font-bold text-purple-800 mb-2">Institution Discounts:</h5>
+                      <div className="grid md:grid-cols-2 gap-4 text-sm text-purple-700">
+                        <div>
+                          <p className="font-semibold">• 10-20 students: 20% discount</p>
+                          <p className="font-semibold">• 25+ students: 30% discount</p>
+                        </div>
+                        <div>
+                          <p className="font-semibold">• Custom curriculum available</p>
+                          <p className="font-semibold">• Teacher training included</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Step 2: Student Information (Individual) or Institution Information */}
+                {currentStep === 2 && formData.registrationType === 'individual' && (
                   <div className="space-y-6">
                     <div className="text-center mb-8">
                       <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -468,8 +864,8 @@ Please process this registration and send confirmation details.
                   </div>
                 )}
 
-                {/* Step 2: Parent/Guardian Information */}
-                {currentStep === 2 && (
+                {/* Step 3: Parent/Guardian Information (Individual only) */}
+                {currentStep === 3 && formData.registrationType === 'individual' && (
                   <div className="space-y-6">
                     <div className="text-center mb-8">
                       <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -542,8 +938,9 @@ Please process this registration and send confirmation details.
                   </div>
                 )}
 
-                {/* Step 3: Camp Selection */}
-                {currentStep === 3 && (
+                {/* Step 3/4: Camp Selection */}
+                {((currentStep === 4 && formData.registrationType === 'individual') || 
+                  (currentStep === 3 && formData.registrationType === 'institution')) && (
                   <div className="space-y-6">
                     <div className="text-center mb-8">
                       <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -616,8 +1013,9 @@ Please process this registration and send confirmation details.
                   </div>
                 )}
 
-                {/* Step 4: Emergency & Medical Information */}
-                {currentStep === 4 && (
+                {/* Step 4/5: Emergency & Medical Information */}
+                {((currentStep === 5 && formData.registrationType === 'individual') || 
+                  (currentStep === 4 && formData.registrationType === 'institution')) && (
                   <div className="space-y-6">
                     <div className="text-center mb-8">
                       <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -689,8 +1087,9 @@ Please process this registration and send confirmation details.
                   </div>
                 )}
 
-                {/* Step 5: Review & Submit */}
-                {currentStep === 5 && (
+                {/* Step 5/6: Review & Submit */}
+                {((currentStep === 6 && formData.registrationType === 'individual') || 
+                  (currentStep === 5 && formData.registrationType === 'institution')) && (
                   <div className="space-y-6">
                     <div className="text-center mb-8">
                       <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -701,30 +1100,62 @@ Please process this registration and send confirmation details.
                     </div>
 
                     <div className="bg-gray-50 rounded-xl p-6 space-y-4">
-                      <div className="grid sm:grid-cols-2 gap-4">
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Student</h4>
-                          <p className="text-gray-600">{formData.studentName}, {formData.age} years</p>
-                          <p className="text-gray-600">{formData.grade} Grade</p>
+                      {formData.registrationType === 'individual' ? (
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Student</h4>
+                            <p className="text-gray-600">{formData.studentName}, {formData.age} years</p>
+                            <p className="text-gray-600">{formData.grade} Grade</p>
+                            {formData.school && <p className="text-gray-600">{formData.school}</p>}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Parent/Guardian</h4>
+                            <p className="text-gray-600">{formData.parentName}</p>
+                            <p className="text-gray-600">{formData.email}</p>
+                            <p className="text-gray-600">{formData.phone}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Camp Details</h4>
+                            <p className="text-gray-600">{currentCamp.name}</p>
+                            <p className="text-gray-600">{formData.preferredDate}</p>
+                            <p className="text-gray-600">{formData.preferredTime}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Emergency Contact</h4>
+                            <p className="text-gray-600">{formData.emergencyContact}</p>
+                            <p className="text-gray-600">{formData.emergencyPhone}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Parent/Guardian</h4>
-                          <p className="text-gray-600">{formData.parentName}</p>
-                          <p className="text-gray-600">{formData.email}</p>
-                          <p className="text-gray-600">{formData.phone}</p>
+                      ) : (
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Institution</h4>
+                            <p className="text-gray-600">{formData.institutionName}</p>
+                            <p className="text-gray-600">{formData.institutionType}</p>
+                            <p className="text-gray-600">{formData.numberOfStudents} students</p>
+                            <p className="text-gray-600">Ages {formData.ageRangeMin}-{formData.ageRangeMax} years</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Contact Person</h4>
+                            <p className="text-gray-600">{formData.contactPersonName}</p>
+                            <p className="text-gray-600">{formData.contactPersonTitle}</p>
+                            <p className="text-gray-600">{formData.institutionEmail}</p>
+                            <p className="text-gray-600">{formData.institutionPhone}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Camp Details</h4>
+                            <p className="text-gray-600">{currentCamp.name}</p>
+                            <p className="text-gray-600">{formData.preferredDate}</p>
+                            <p className="text-gray-600">{formData.preferredTime}</p>
+                            {formData.preferredProgram && <p className="text-gray-600">Delivery: {formData.preferredProgram}</p>}
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-gray-900">Emergency Contact</h4>
+                            <p className="text-gray-600">{formData.emergencyContact}</p>
+                            <p className="text-gray-600">{formData.emergencyPhone}</p>
+                          </div>
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Camp Details</h4>
-                          <p className="text-gray-600">{currentCamp.name}</p>
-                          <p className="text-gray-600">{formData.preferredDate}</p>
-                          <p className="text-gray-600">{formData.preferredTime}</p>
-                        </div>
-                        <div>
-                          <h4 className="font-semibold text-gray-900">Emergency Contact</h4>
-                          <p className="text-gray-600">{formData.emergencyContact}</p>
-                          <p className="text-gray-600">{formData.emergencyPhone}</p>
-                        </div>
-                      </div>
+                      )}
                     </div>
 
                     <div>
@@ -766,7 +1197,8 @@ Please process this registration and send confirmation details.
                     Previous
                   </button>
 
-                  {currentStep < 5 ? (
+                  {((formData.registrationType === 'individual' && currentStep < 6) || 
+                    (formData.registrationType === 'institution' && currentStep < 5)) ? (
                     <button
                       type="button"
                       onClick={nextStep}

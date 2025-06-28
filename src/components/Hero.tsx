@@ -3,7 +3,7 @@ import robotImage from '../assets/children-making-robot.jpg';
 
 export default function Hero() {
   return (
-    <section id="hero" className="relative bg-gradient-to-br from-purple-100 via-pink-50 to-cyan-100 overflow-hidden">
+    <section id="hero" className="relative bg-gradient-to-br from-purple-100 via-pink-50 to-cyan-100 overflow-hidden min-h-screen flex items-center">
       {/* Colorful background elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-0 left-0 w-48 sm:w-72 h-48 sm:h-72 bg-gradient-to-br from-pink-300 to-purple-400 rounded-full opacity-20 -translate-x-12 sm:-translate-x-24 -translate-y-12 sm:-translate-y-24 animate-pulse" style={{animationDuration: '4s'}}></div>
@@ -11,7 +11,7 @@ export default function Hero() {
         <div className="absolute bottom-0 left-1/3 w-48 sm:w-64 h-48 sm:h-64 bg-gradient-to-br from-yellow-300 to-orange-400 rounded-full opacity-20 translate-y-24 sm:translate-y-32 animate-swing"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Content */}
           <div className="space-y-6 sm:space-y-8 text-center lg:text-left">

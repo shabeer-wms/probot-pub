@@ -53,7 +53,7 @@ export default function Footer() {
     {
       title: 'Contact',
       links: [
-        { text: 'hr@pro26.in', action: () => { window.location.href = 'mailto:hr@pro26.in'; } },
+        { text: 'support@pro26.in', action: () => { window.location.href = 'mailto:support@pro26.in'; } },
         { text: 'Kerala, India', action: () => { window.open('https://maps.google.com/?q=Kerala,India', '_blank'); } },
         { text: 'www.pro26.in', action: () => { window.open('https://pro26.in', '_blank'); } }
       ]
@@ -113,19 +113,19 @@ export default function Footer() {
             <div className="flex items-center space-x-6">
               <div className="flex space-x-4 text-sm text-gray-400">
                 <button 
-                  onClick={() => alert('Privacy Policy page coming soon! Contact hr@pro26.in for privacy questions.')}
+                  onClick={() => handleNavigateWithScroll('/privacy')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Privacy Policy
                 </button>
                 <button 
-                  onClick={() => alert('Terms of Service page coming soon! Contact hr@pro26.in for terms questions.')}
+                  onClick={() => handleNavigateWithScroll('/terms')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Terms of Service
                 </button>
                 <button 
-                  onClick={() => alert('Cookie Policy page coming soon! Contact hr@pro26.in for cookie policy questions.')}
+                  onClick={() => handleNavigateWithScroll('/cookies')}
                   className="hover:text-white transition-colors duration-200"
                 >
                   Cookie Policy
