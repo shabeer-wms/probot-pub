@@ -36,6 +36,7 @@ export default function Footer() {
         { text: 'Home', action: () => handleNavigateWithScroll('/') },
         { text: 'Camps', action: () => handleNavigateWithScroll('/camps') },
         { text: 'Shop', action: () => handleNavigateWithScroll('/shop') },
+        { text: 'Blog', action: () => handleNavigateWithScroll('/blog') },
         { text: "What's Inside", action: () => handleScrollToSection('features') },
         { text: 'Contact Us', action: () => handleScrollToSection('contact-us') }
       ]
@@ -46,7 +47,7 @@ export default function Footer() {
         { text: 'One-Day Arduino Camp', action: () => handleNavigateWithScroll('/camps/one-day') },
         { text: 'Two-Day Robotics Camp', action: () => handleNavigateWithScroll('/camps/two-day') },
         { text: 'Online STEM Kit Program', action: () => handleNavigateWithScroll('/camps/online') },
-        { text: 'School Collaboration Program', action: () => { window.location.href = 'mailto:hr@pro26.in?subject=School Collaboration Inquiry'; } },
+        { text: 'School Collaboration Program', action: () => handleNavigateWithScroll('/register?type=institution') },
         { text: 'Custom STEM Workshops', action: () => { window.location.href = 'mailto:hr@pro26.in?subject=Custom Workshop Request'; } }
       ]
     },

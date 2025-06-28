@@ -249,13 +249,13 @@ export default function PrivacyPolicy() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a 
                   href="mailto:support@pro26.in"
-                  className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 min-w-[200px] inline-block"
+                  className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px] inline-block text-center"
                 >
                   Contact Support
                 </a>
                 <button 
                   onClick={() => handleNavigateWithScroll('/about')}
-                  className="bg-transparent border-3 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 min-w-[200px]"
+                  className="bg-transparent border-3 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px]"
                 >
                   Learn About Us
                 </button>

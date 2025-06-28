@@ -352,7 +352,7 @@ export default function Shop() {
                   </div>
                   <button 
                     onClick={() => addToCart(kit)}
-                    className="w-full sm:w-auto bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-bold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center text-sm sm:text-base"
+                    className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold hover:shadow-lg transform hover:-translate-y-1 transition-all duration-200 flex items-center justify-center text-base min-h-[48px]"
                   >
                     <FaShoppingCart className="mr-2" />
                     <span className="hidden sm:inline">Add to Cart</span>
@@ -379,14 +379,14 @@ export default function Shop() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button 
-                onClick={() => handleNavigateWithScroll('/camp-registration')}
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg sm:text-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 min-w-[200px] sm:min-w-[250px]"
+                onClick={() => handleNavigateWithScroll('/register')}
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px]"
               >
                 Register for a Camp
               </button>
               <button 
-                onClick={() => handleNavigateWithScroll('/')}
-                className="bg-transparent border-3 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg sm:text-xl hover:bg-white hover:text-teal-600 transition-all duration-300 hover:scale-105 min-w-[200px] sm:min-w-[250px]"
+                onClick={() => handleNavigateWithScroll('/about')}
+                className="bg-transparent border-3 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:bg-white hover:text-teal-600 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px]"
               >
                 Learn More About Us
               </button>
@@ -435,7 +435,7 @@ export default function Shop() {
                   <p className="text-gray-500 text-base sm:text-lg mb-4 sm:mb-6">Your cart is empty</p>
                   <button 
                     onClick={closeCart}
-                    className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 text-sm sm:text-base"
+                    className="bg-gradient-to-r from-indigo-500 to-purple-600 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200 text-base min-h-[48px] w-full"
                   >
                     Continue Shopping
                   </button>

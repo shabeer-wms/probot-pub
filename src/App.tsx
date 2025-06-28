@@ -15,6 +15,7 @@ import AboutUs from './pages/AboutUs';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
+import Blog from './pages/Blog';
 
 function App() {
   return (
@@ -55,6 +56,10 @@ function App() {
           </>} />
           <Route path="/about" element={<>
             <AboutUs />
+            <Footer />
+          </>} />
+          <Route path="/blog" element={<>
+            <Blog />
             <Footer />
           </>} />
           <Route path="/privacy" element={<>

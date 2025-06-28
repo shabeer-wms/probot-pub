@@ -1,14 +1,57 @@
 import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import pro26Logo from '../assets/pro26-logo.png';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleScrollToTop = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  // Intersection Observer to track active section
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection('none'); // Don't track sections on other pages
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            if (sectionId === 'features') {
+              setActiveSection('benefits');
+            } else if (sectionId === 'contact-us') {
+              setActiveSection('support');
+            } else if (sectionId === 'hero') {
+              setActiveSection('home');
+            }
+          }
+        });
+      },
+      {
+        threshold: 0.3, // Trigger when 30% of the section is visible
+        rootMargin: '-80px 0px -80px 0px' // Account for header height
+      }
+    );
+
+    // Observe sections
+    const heroSection = document.getElementById('hero');
+    const featuresSection = document.getElementById('features');
+    const contactSection = document.getElementById('contact-us');
+
+    if (heroSection) observer.observe(heroSection);
+    if (featuresSection) observer.observe(featuresSection);
+    if (contactSection) observer.observe(contactSection);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [location.pathname]);
+
+  const handleScrollToTop = (event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => {
     event.preventDefault(); // Prevent page reload
     if (location.pathname !== '/') {
       // If not on home page, navigate to home
@@ -87,6 +130,15 @@ export default function Header() {
     }, 100);
   };
 
+  const handleNavigateToBlog = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault(); // Prevent page reload
+    navigate('/blog');
+    // Scroll to top after navigation
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
   const handleNavigateToAbout = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault(); // Prevent page reload
     navigate('/about');
@@ -109,20 +161,30 @@ export default function Header() {
     { name: 'Benefits', href: '/#features', onClick: handleScrollToFeatures },
     { name: 'Camps', href: '/camps', onClick: handleNavigateToCamps },
     { name: 'Shop', href: '/shop', onClick: handleNavigateToShop },
+    { name: 'Blog', href: '/blog', onClick: handleNavigateToBlog },
     { name: 'Support', href: '/#contact-us', onClick: handleScrollToContactUs },
     { name: 'About', href: '/about', onClick: handleNavigateToAbout },
   ];
 
   const isActiveNavItem = (href: string) => {
-    // For exact home page - only active when on home with no specific section focus
-    if (href === '/') {
-      return location.pathname === '/';
+    // For the home page sections, use scroll-based detection
+    if (location.pathname === '/') {
+      if (href === '/' && activeSection === 'home') {
+        return true;
+      }
+      if (href === '/#features' && activeSection === 'benefits') {
+        return true;
+      }
+      if (href === '/#contact-us' && activeSection === 'support') {
+        return true;
+      }
+      return false;
     }
-    // For section-based navigation - never show as active since they're quick scroll actions
+    
+    // For other pages (camps, shop, about, etc.)
     if (href.startsWith('/#')) {
-      return false; // Section links don't stay "active" - they're action links
+      return false; // Section links are not active when not on home page
     }
-    // For other pages (camps, shop, etc.)
     return location.pathname === href;
   };
 
@@ -131,14 +193,18 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex items-center">
+          <button 
+            onClick={handleScrollToTop}
+            className="flex items-center hover:opacity-80 transition-opacity duration-200 focus:outline-none p-1 -m-1"
+            aria-label="Go to home page"
+          >
             <img 
               src={pro26Logo} 
               alt="Pro26 Logo" 
               className="w-8 h-8 object-contain"
             />
             <span className="ml-2 text-xl font-bold text-gray-900">ProBot</span>
-          </div>
+          </button>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8 relative">

@@ -39,8 +39,6 @@ interface FormData {
   // Additional Information
   experience: string;
   medicalConditions: string;
-  emergencyContact: string;
-  emergencyPhone: string;
   
   // Preferences
   dietaryRestrictions: string;
@@ -65,12 +63,14 @@ export default function CampRegistration() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const campTypeFromUrl = searchParams.get('camp') || 'one-day';
+  const typeParam = searchParams.get('type');
+  const registrationTypeFromUrl = (typeParam === 'institution' || typeParam === 'individual') ? typeParam : 'individual';
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const [formData, setFormData] = useState<FormData>({
-    registrationType: 'individual',
+    registrationType: registrationTypeFromUrl,
     studentName: '',
     age: '',
     grade: '',
@@ -95,8 +95,6 @@ export default function CampRegistration() {
     preferredTime: '',
     experience: 'beginner',
     medicalConditions: '',
-    emergencyContact: '',
-    emergencyPhone: '',
     dietaryRestrictions: '',
     specialRequests: ''
   });
@@ -197,11 +195,11 @@ export default function CampRegistration() {
         if (formData.registrationType === 'individual') {
           return !!(formData.campType && formData.preferredDate && formData.preferredTime);
         } else {
-          return !!(formData.emergencyContact && formData.emergencyPhone);
+          return true; // Medical information (no required fields)
         }
       case 5:
         if (formData.registrationType === 'individual') {
-          return !!(formData.emergencyContact && formData.emergencyPhone);
+          return true; // Medical information (no required fields)
         } else {
           return true; // Institution review step
         }
@@ -277,7 +275,6 @@ Camp Details:
 
 Experience Level: ${formData.experience}
 Medical Conditions: ${formData.medicalConditions || 'None'}
-Emergency Contact: ${formData.emergencyContact} (${formData.emergencyPhone})
 Dietary Restrictions: ${formData.dietaryRestrictions || 'None'}
 Special Requests: ${formData.specialRequests || 'None'}
 
@@ -1021,42 +1018,12 @@ Please process this registration and send confirmation details.
                       <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <FaExclamationTriangle className="text-white text-2xl" />
                       </div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">Emergency & Medical Information</h2>
+                      <h2 className="text-2xl font-bold text-gray-900 mb-2">Medical Information</h2>
                       <p className="text-gray-600">Important information for student safety</p>
                     </div>
 
-                    <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="space-y-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Emergency Contact Name *
-                        </label>
-                        <input
-                          type="text"
-                          name="emergencyContact"
-                          value={formData.emergencyContact}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-                          placeholder="Emergency contact person"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Emergency Contact Phone *
-                        </label>
-                        <input
-                          type="tel"
-                          name="emergencyPhone"
-                          value={formData.emergencyPhone}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-                          placeholder="+91 98765 43210"
-                        />
-                      </div>
-
-                      <div className="sm:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Medical Conditions / Allergies
                         </label>
@@ -1070,7 +1037,7 @@ Please process this registration and send confirmation details.
                         />
                       </div>
 
-                      <div className="sm:col-span-2">
+                      <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Dietary Restrictions
                         </label>
@@ -1120,11 +1087,6 @@ Please process this registration and send confirmation details.
                             <p className="text-gray-600">{formData.preferredDate}</p>
                             <p className="text-gray-600">{formData.preferredTime}</p>
                           </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900">Emergency Contact</h4>
-                            <p className="text-gray-600">{formData.emergencyContact}</p>
-                            <p className="text-gray-600">{formData.emergencyPhone}</p>
-                          </div>
                         </div>
                       ) : (
                         <div className="grid sm:grid-cols-2 gap-4">
@@ -1148,11 +1110,6 @@ Please process this registration and send confirmation details.
                             <p className="text-gray-600">{formData.preferredDate}</p>
                             <p className="text-gray-600">{formData.preferredTime}</p>
                             {formData.preferredProgram && <p className="text-gray-600">Delivery: {formData.preferredProgram}</p>}
-                          </div>
-                          <div>
-                            <h4 className="font-semibold text-gray-900">Emergency Contact</h4>
-                            <p className="text-gray-600">{formData.emergencyContact}</p>
-                            <p className="text-gray-600">{formData.emergencyPhone}</p>
                           </div>
                         </div>
                       )}

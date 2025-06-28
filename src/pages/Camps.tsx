@@ -175,11 +175,11 @@ export default function Camps() {
                             <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                 <button 
                                     onClick={() => handleNavigateWithScroll('/register')}
-                                    className="bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-10 py-4 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105"
+                                    className="bg-gradient-to-r from-yellow-500 to-orange-600 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px]"
                                 >
                                     Register for a Camp
                                 </button>
-                                <Link to="/" className="bg-white/20 backdrop-blur-sm border-2 border-white text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-teal-600 transition-all duration-300 hover:scale-105">
+                                <Link to="/" className="bg-white/20 backdrop-blur-sm border-2 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:bg-white hover:text-teal-600 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px] text-center">
                                     Learn More About Us
                                 </Link>
                             </div>

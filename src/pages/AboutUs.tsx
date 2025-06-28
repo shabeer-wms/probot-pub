@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { FaArrowLeft, FaUsers, FaRocket, FaHeart, FaGraduationCap, FaCode, FaRobot, FaAward, FaGlobe, FaLightbulb } from 'react-icons/fa';
+import { FaArrowLeft, FaUsers, FaRocket, FaHeart, FaGraduationCap, FaRobot, FaAward, FaGlobe, FaLightbulb } from 'react-icons/fa';
 import { useState, useEffect, useRef } from 'react';
 
 export default function AboutUs() {
@@ -150,7 +150,7 @@ export default function AboutUs() {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all duration-300 capitalize ${
+                className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 capitalize min-w-[120px] ${
                   activeTab === tab
                     ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg'
                     : 'text-gray-600 hover:text-purple-600'
@@ -380,13 +380,13 @@ export default function AboutUs() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <button 
                 onClick={() => handleNavigateWithScroll('/camps')}
-                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 min-w-[200px]"
+                className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px]"
               >
                 Explore Camps
               </button>
               <button 
                 onClick={() => handleNavigateWithScroll('/shop')}
-                className="bg-transparent border-3 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 min-w-[200px]"
+                className="bg-transparent border-3 border-white text-white px-8 sm:px-12 py-4 sm:py-5 rounded-2xl font-bold text-lg hover:bg-white hover:text-purple-600 transition-all duration-300 hover:scale-105 w-full sm:w-auto sm:min-w-[300px]"
               >
                 Shop Kits
               </button>
