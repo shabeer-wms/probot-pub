@@ -1,20 +1,57 @@
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
-import HowToBuy from './components/HowToBuy';
+import HowItWorks from './components/HowItWorks';
 import Features from './components/Features';
-import Newsletter from './components/Newsletter';
+import ContactUs from './components/ContactUs';                                     
 import Footer from './components/Footer';
+import Camps from './pages/Camps';
+import OneDayCamp from './pages/OneDayCamp';
+import TwoDayCamp from './pages/TwoDayCamp';
+import OnlineCamp from './pages/OnlineCamp';
+import Shop from './pages/Shop';
+import CampRegistration from './pages/CampRegistration';
 
 function App() {
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
-      <Hero />
-      <HowToBuy />
-      <Features />
-      <Newsletter />
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen bg-white">
+        <Header />
+        <Routes>
+          <Route path="/" element={<>
+            <Hero />
+            <HowItWorks />
+            <Features />
+            <ContactUs />
+            <Footer />
+          </>} />
+          <Route path="/camps" element={<>
+            <Camps />
+            <Footer />
+          </>} />
+          <Route path="/camps/one-day" element={<>
+            <OneDayCamp />
+            <Footer />
+          </>} />
+          <Route path="/camps/two-day" element={<>
+            <TwoDayCamp />
+            <Footer />
+          </>} />
+          <Route path="/camps/online" element={<>
+            <OnlineCamp />
+            <Footer />
+          </>} />
+          <Route path="/shop" element={<>
+            <Shop />
+            <Footer />
+          </>} />
+          <Route path="/register" element={<>
+            <CampRegistration />
+            <Footer />
+          </>} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

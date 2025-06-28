@@ -1,19 +1,62 @@
 import { Github, Linkedin } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import pro26Logo from '../assets/pro26-logo.png';
 
 export default function Footer() {
+  const navigate = useNavigate();
+
+  const handleNavigateWithScroll = (path: string) => {
+    navigate(path);
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
+  };
+
+  const handleScrollToSection = (sectionId: string) => {
+    if (window.location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        if (section) {
+          section.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   const footerSections = [
     {
       title: 'Quick Links',
-      links: ['Home', 'Camps', 'Tutorials', "What's Inside", 'Enroll Now']
+      links: [
+        { text: 'Home', action: () => handleNavigateWithScroll('/') },
+        { text: 'Camps', action: () => handleNavigateWithScroll('/camps') },
+        { text: 'Shop', action: () => handleNavigateWithScroll('/shop') },
+        { text: "What's Inside", action: () => handleScrollToSection('features') },
+        { text: 'Contact Us', action: () => handleScrollToSection('contact-us') }
+      ]
     },
     {
       title: 'Programs',
-      links: ['One-Day Arduino Camp', 'Two-Day Robotics Camp', 'Online STEM Kit Program', 'School Collaboration Program', 'Custom STEM Workshops']
+      links: [
+        { text: 'One-Day Arduino Camp', action: () => handleNavigateWithScroll('/camps/one-day') },
+        { text: 'Two-Day Robotics Camp', action: () => handleNavigateWithScroll('/camps/two-day') },
+        { text: 'Online STEM Kit Program', action: () => handleNavigateWithScroll('/camps/online') },
+        { text: 'School Collaboration Program', action: () => { window.location.href = 'mailto:hr@pro26.in?subject=School Collaboration Inquiry'; } },
+        { text: 'Custom STEM Workshops', action: () => { window.location.href = 'mailto:hr@pro26.in?subject=Custom Workshop Request'; } }
+      ]
     },
     {
       title: 'Contact',
-      links: ['hr@pro26.in', 'Kerala, India', 'www.pro26.in']
+      links: [
+        { text: 'hr@pro26.in', action: () => { window.location.href = 'mailto:hr@pro26.in'; } },
+        { text: 'Kerala, India', action: () => { window.open('https://maps.google.com/?q=Kerala,India', '_blank'); } },
+        { text: 'www.pro26.in', action: () => { window.open('https://pro26.in', '_blank'); } }
+      ]
     }
   ];
 
@@ -47,12 +90,12 @@ export default function Footer() {
               <ul className="space-y-3">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <a
-                      href="#"
-                      className="text-gray-400 hover:text-white transition-colors duration-200"
+                    <button
+                      onClick={link.action}
+                      className="text-gray-400 hover:text-white transition-colors duration-200 text-left"
                     >
-                      {link}
-                    </a>
+                      {link.text}
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -69,20 +112,39 @@ export default function Footer() {
             
             <div className="flex items-center space-x-6">
               <div className="flex space-x-4 text-sm text-gray-400">
-                <a href="#" className="hover:text-white transition-colors duration-200">Privacy Policy</a>
-                <a href="#" className="hover:text-white transition-colors duration-200">Terms of Service</a>
-                <a href="#" className="hover:text-white transition-colors duration-200">Cookie Policy</a>
+                <button 
+                  onClick={() => alert('Privacy Policy page coming soon! Contact hr@pro26.in for privacy questions.')}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  Privacy Policy
+                </button>
+                <button 
+                  onClick={() => alert('Terms of Service page coming soon! Contact hr@pro26.in for terms questions.')}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  Terms of Service
+                </button>
+                <button 
+                  onClick={() => alert('Cookie Policy page coming soon! Contact hr@pro26.in for cookie policy questions.')}
+                  className="hover:text-white transition-colors duration-200"
+                >
+                  Cookie Policy
+                </button>
               </div>
               
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://linkedin.com/company/pro26"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
-                  href="#"
+                  href="https://github.com/pro-26"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors duration-200"
                 >
                   <Github className="w-5 h-5" />
