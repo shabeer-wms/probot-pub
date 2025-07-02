@@ -19,7 +19,7 @@ import Blog from './pages/Blog';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/ProBot">
       <div className="min-h-screen bg-white">
         <Header />
         <Routes>
