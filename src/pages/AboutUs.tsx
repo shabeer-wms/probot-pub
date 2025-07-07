@@ -1,6 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import { FaArrowLeft, FaUsers, FaRocket, FaHeart, FaGraduationCap, FaRobot, FaAward, FaGlobe, FaLightbulb } from 'react-icons/fa';
 import { useState, useEffect, useRef } from 'react';
+import shanidImg from '../assets/shanid.jpg';
+import shabeerImg from '../assets/shabeer.jpg';
+import shafinImg from '../assets/shafin.jpg';
 
 export default function AboutUs() {
   const navigate = useNavigate();
@@ -61,21 +64,21 @@ export default function AboutUs() {
     {
       name: 'Dr. Shanid Malayil',
       role: 'CEO',
-      image: '/api/placeholder/300/300',
-      description: 'Research Scientist in Artificial Intelligence and Associate Professor at Kerala Technological University',
+      image: shanidImg,
+      description: 'Research Scientist in Artificial Intelligence and Associate Professor at Kerala Technical University',
       expertise: ['Robotics', 'AI', 'STEM Education']
     },
     {
       name: 'Muahmmed Shabeer OP',
       role: 'Managing Director',
-      image: '/api/placeholder/300/300',
+      image: shabeerImg,
       description: 'Full Stack Flutter Developer expert and IoT Innovator',
       expertise: ['Arduino', 'IoT', 'Programming']
     },
     {
       name: 'Muhammed Shafin',
       role: 'Project Manager',
-      image: '/api/placeholder/300/300',
+      image: shafinImg,
       description: 'Electronics engineer and automation expert providing innovative tech solutions',
       expertise: ['Electronics', 'PCB Design', 'Product Development']
     }
@@ -220,55 +223,55 @@ export default function AboutUs() {
         </div>
 
         {/* Our Story Section */}
-        <div className="mb-16">
-          <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl">
-            <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 text-center">Our Story</h2>
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Pro26 was founded in 2018 with a simple yet powerful vision: to make robotics and programming 
-                  education accessible to every student, regardless of their background or location.
-                </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Starting as a small team of passionate educators and engineers, we noticed a gap in hands-on 
-                  STEM education. Traditional learning methods weren't engaging students effectively, and many 
-                  schools lacked the resources to provide meaningful technology education.
-                </p>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  Today, we've grown into a global platform that serves thousands of students across 50+ countries, 
-                  partnering with schools, educators, and families to bring the joy of creation and discovery 
-                  directly to learners everywhere.
-                </p>
-                <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-                  <h4 className="font-bold text-blue-800 mb-2">Privacy & Trust</h4>
-                  <p className="text-blue-700 text-sm">
-                    We're committed to protecting your privacy and data. We implement industry-standard security measures 
-                    and never sell personal information. Our transparent practices ensure your trust in our platform.
+          {/* <div className="mb-16">
+            <div className="bg-white rounded-3xl p-8 sm:p-12 shadow-xl">
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 text-center">Our Story</h2>
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Pro26 was founded in 2025 with a simple yet powerful vision: to make robotics and programming 
+                    education accessible to every student, regardless of their background or location.
                   </p>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Starting as a small team of passionate educators and engineers, we noticed a gap in hands-on 
+                    STEM education. Traditional learning methods weren't engaging students effectively, and many 
+                    schools lacked the resources to provide meaningful technology education.
+                  </p>
+                  <p className="text-lg text-gray-600 leading-relaxed">
+                    Today, we've grown into a global platform 
+                    partnering with schools, educators, and families to bring the joy of creation and discovery 
+                    directly to learners everywhere.
+                  </p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
+                    <h4 className="font-bold text-blue-800 mb-2">Privacy & Trust</h4>
+                    <p className="text-blue-700 text-sm">
+                      We're committed to protecting your privacy and data. We implement industry`-standard security measures 
+                      and never sell personal information. Our transparent practices ensure your trust in our platform.
+                    </p>
+                  </div>
                 </div>
-              </div>
-              <div className="relative">
-                <div ref={achievementsRef} className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-3xl p-8 text-white shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
-                  <div className="grid grid-cols-2 gap-6">
-                    {achievements.map((achievement, index) => (
-                      <div key={index} className="text-center">
-                        <achievement.icon className="text-3xl mb-2 mx-auto" />
-                        <div className="text-2xl font-bold">
-                          <AnimatedCounter 
-                            end={achievement.number} 
-                            suffix={achievement.suffix}
-                            duration={2000 + index * 200} 
-                          />
+                <div className="relative">
+                  <div ref={achievementsRef} className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-3xl p-8 text-white shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-300">
+                    <div className="grid grid-cols-2 gap-6">
+                      {achievements.map((achievement, index) => (
+                        <div key={index} className="text-center">
+                          <achievement.icon className="text-3xl mb-2 mx-auto" />
+                          <div className="text-2xl font-bold">
+                            <AnimatedCounter 
+                              end={achievement.number} 
+                              suffix={achievement.suffix}
+                              duration={2000 + index * 200} 
+                            />
+                          </div>
+                          <div className="text-purple-100 text-sm">{achievement.label}</div>
                         </div>
-                        <div className="text-purple-100 text-sm">{achievement.label}</div>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </div> */}
 
         {/* Trust & Safety Section */}
         <div className="mb-16">
@@ -342,9 +345,17 @@ export default function AboutUs() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
             {teamMembers.map((member, index) => (
               <div key={index} className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <div className="w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <FaUsers className="text-white text-2xl" />
-                </div>
+                {member.image ? (
+                  <img 
+                    src={member.image} 
+                    alt={member.name}
+                    className="w-24 h-24 rounded-full mx-auto mb-4 object-cover"
+                  />
+                ) : (
+                  <div className="w-24 h-24 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center">
+                    <FaUsers className="text-white text-2xl" />
+                  </div>
+                )}
                 <h3 className="text-xl font-bold text-gray-800 text-center mb-2">{member.name}</h3>
                 <p className="text-purple-600 font-semibold text-center mb-3">{member.role}</p>
                 <p className="text-gray-600 text-sm text-center mb-4">{member.description}</p>
