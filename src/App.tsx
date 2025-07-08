@@ -16,6 +16,7 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
 import Blog from './pages/Blog';
+import NotFound from './pages/NotFound';
 
 function App() {
   return (
@@ -74,6 +75,7 @@ function App() {
             <CookiePolicy />
             <Footer />
           </>} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </Router>
