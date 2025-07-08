@@ -3,9 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 - Page Not Found | ProBot</title>
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Oops! The page you're looking for doesn't exist. Explore ProBot's robotics camps, STEM education programs, and hands-on learning experiences for kids.">
+  <meta name="keywords" content="404 error, page not found, ProBot, robotics camps, STEM education">
+  
+  <!-- Open Graph tags -->
+  <meta property="og:title" content="404 - Page Not Found | ProBot Robotics Camps">
+  <meta property="og:description" content="The page you're looking for doesn't exist. Explore our robotics camps instead!">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://your-domain.com/ProBot/pro26-logo.png">
+  
+  <!-- Twitter Card tags -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="404 - Page Not Found | ProBot">
+  <meta name="twitter:description" content="The page you're looking for doesn't exist. Explore our robotics camps instead!">
+  
+  <title>404 - Page Not Found | ProBot Robotics Camps</title>
+  <link rel="icon" type="image/png" href="/ProBot/pro26-logo.png">
   <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css'>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Arvo'>
+  
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Page Not Found - ProBot",
+    "description": "The requested page could not be found on ProBot's website.",
+    "mainEntity": {
+      "@type": "Organization",
+      "name": "ProBot",
+      "description": "Robotics camps and STEM education for kids",
+      "url": "https://your-domain.com/ProBot"
+    }
+  }
+  </script>
+  
   <style>
     /*======================
         404 page
@@ -25,29 +58,112 @@
       background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
       height: 400px;
       background-position: center;
+      background-size: cover;
     }
 
     .four_zero_four_bg h1{
       font-size:80px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
 
     .four_zero_four_bg h3{
       font-size:80px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
                  
     .link_404{			 
       color: #fff!important;
-      padding: 10px 20px;
-      background: #39ac31;
-      margin: 20px 0;
+      padding: 12px 24px;
+      background: #3B82F6;
+      margin: 20px 10px;
       display: inline-block;
       text-decoration: none;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      font-weight: 600;
     }
     
     .link_404:hover {
-      background: #2d8a26;
+      background: #2563EB;
       color: #fff!important;
       text-decoration: none;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+    }
+
+    .error-actions {
+      margin-top: 30px;
+    }
+
+    .helpful-links {
+      background: #f8fafc;
+      padding: 30px;
+      border-radius: 12px;
+      margin-top: 40px;
+    }
+
+    .helpful-links h4 {
+      color: #1e293b;
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+
+    .helpful-links a {
+      color: #3B82F6;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: 500;
+    }
+
+    .helpful-links a:hover {
+      color: #2563EB;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <main role="main">
+    <section class="page_404">
+      <div class="container">
+        <div class="row">  
+          <div class="col-sm-12">
+            <div class="col-sm-10 col-sm-offset-1 text-center">
+              
+              <div class="four_zero_four_bg" role="img" aria-label="Animated robot character illustrating the 404 error">
+                <h1 class="text-center" style="color: white; padding-top: 100px;">404</h1>
+              </div>
+              
+              <div class="contant_box_404">
+                <h3 class="h2">Looks like you're lost</h3>
+                <p style="font-size: 18px; color: #64748b; margin: 20px 0;">The page you are looking for is not available!</p>
+                
+                <div class="error-actions">
+                  <a href="/ProBot/" class="link_404" aria-label="Go to ProBot homepage">🏠 Go to Home</a>
+                  <a href="javascript:history.back()" class="link_404" aria-label="Go back to previous page">← Go Back</a>
+                </div>
+
+                <div class="helpful-links">
+                  <h4>Maybe you're looking for:</h4>
+                  <nav aria-label="Site navigation links">
+                    <a href="/ProBot/camps" aria-label="Explore our robotics camps">Camps</a>
+                    <a href="/ProBot/about" aria-label="Learn more about ProBot">About Us</a>
+                    <a href="/ProBot/shop" aria-label="Browse our robotics shop">Shop</a>
+                    <a href="/ProBot/blog" aria-label="Read our robotics blog">Blog</a>
+                  </nav>
+                </div>
+
+                <div style="margin-top: 30px; font-style: italic; color: #64748b;">
+                  "Beep boop! Even robots make mistakes sometimes. Let's get you back on track!" 🚀
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
     }
     
     .contant_box_404{ 
