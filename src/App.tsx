@@ -56,7 +56,7 @@ function App() {
   };
 
   return (
-    <Router basename="/ProBot">
+    <Router basename="/">
       <div className="min-h-screen bg-white">
         <Header />
         <Routes>
