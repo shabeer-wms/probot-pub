@@ -688,16 +688,6 @@ void loop() {
                   ))}
                 </div>
               </div>
-
-              <div className="mt-8 pt-8 border-t border-gray-200">
-                <h4 className="font-bold text-gray-900 mb-4">Stay Updated</h4>
-                <p className="text-gray-600 text-sm mb-4">
-                  Get the latest articles and tutorials delivered to your inbox.
-                </p>
-                <button className="w-full bg-gradient-to-r from-teal-500 to-emerald-600 text-white px-4 py-3 rounded-xl font-semibold hover:shadow-lg transition-all duration-200">
-                  Subscribe to Newsletter
-                </button>
-              </div>
             </div>
           </div>
 

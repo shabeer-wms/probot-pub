@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { db } from '../utils/firebase';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FaArrowLeft, FaUser, FaCalendar, FaMapMarkerAlt, FaCheckCircle, FaExclamationTriangle, FaChild, FaGraduationCap, FaCreditCard } from 'react-icons/fa';
 
@@ -33,16 +35,14 @@ interface FormData {
   
   // Camp Selection
   campType: string;
-  preferredDate: string;
-  preferredTime: string;
+  // preferredDate: string;
+  // preferredTime: string;
   
   // Additional Information
   experience: string;
   medicalConditions: string;
   
-  // Preferences
-  dietaryRestrictions: string;
-  specialRequests: string;
+  // Preferences removed
 }
 
 interface CampDetails {
@@ -91,12 +91,12 @@ export default function CampRegistration() {
     phone: '',
     address: '',
     campType: campTypeFromUrl,
-    preferredDate: '',
-    preferredTime: '',
+  // preferredDate: '',
+  // preferredTime: '',
     experience: 'beginner',
     medicalConditions: '',
-    dietaryRestrictions: '',
-    specialRequests: ''
+  // dietaryRestrictions: '',
+  // specialRequests: ''
   });
 
   // Update camp type when URL params change
@@ -107,11 +107,11 @@ export default function CampRegistration() {
 
   // Clear date and time when camp type changes
   useEffect(() => {
-    setFormData(prev => ({ 
-      ...prev, 
-      preferredDate: '', 
-      preferredTime: '' 
-    }));
+    // setFormData(prev => ({ 
+    //   ...prev, 
+    //   preferredDate: '', 
+    //   preferredTime: '' 
+    // }));
   }, [formData.campType]);
 
   const handleNavigateWithScroll = (path: string) => {
@@ -129,7 +129,7 @@ export default function CampRegistration() {
       description: 'Perfect introduction to Arduino and basic electronics',
       dates: ['2025-07-15', '2025-07-22', '2025-07-29', '2025-08-05', '2025-08-12'],
       times: ['9:00 AM - 3:00 PM', '10:00 AM - 4:00 PM'],
-      location: 'Pro26 Learning Center, Kochi',
+      location: 'Pro26 Learning Center',
       maxStudents: 15,
       ageRange: '8-16 years',
       requirements: ['No prior experience needed', 'Bring notebook and pen', 'Lunch will be provided'],
@@ -142,7 +142,7 @@ export default function CampRegistration() {
       description: 'Build and program your own robot over two exciting days',
       dates: ['2025-07-19-20', '2025-07-26-27', '2025-08-02-03', '2025-08-09-10', '2025-08-16-17'],
       times: ['9:00 AM - 3:00 PM (Both Days)', '10:00 AM - 4:00 PM (Both Days)'],
-      location: 'Pro26 Learning Center, Kochi',
+      location: 'Pro26 Learning Center',
       maxStudents: 12,
       ageRange: '10-18 years',
       requirements: ['Basic understanding of computers helpful', 'Bring notebook and pen', 'Lunch provided both days'],
@@ -189,11 +189,11 @@ export default function CampRegistration() {
         if (formData.registrationType === 'individual') {
           return !!(formData.parentName && formData.email && formData.phone);
         } else {
-          return !!(formData.campType && formData.preferredDate && formData.preferredTime);
+          return !!formData.campType;
         }
       case 4:
         if (formData.registrationType === 'individual') {
-          return !!(formData.campType && formData.preferredDate && formData.preferredTime);
+          return !!formData.campType;
         } else {
           return true; // Medical information (no required fields)
         }
@@ -223,66 +223,18 @@ export default function CampRegistration() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      await addDoc(collection(db, 'registrations'), {
+        ...formData,
+        campName: campDetails[formData.campType]?.name || '',
+        submittedAt: Timestamp.now(),
+      });
       setSubmitSuccess(true);
-      
-      // Send email with registration details
-      const subject = `Camp Registration - ${currentCamp.name} (${formData.registrationType === 'individual' ? 'Individual' : 'Institution'})`;
-      
-      let body = `
-New Camp Registration:
-
-Registration Type: ${formData.registrationType === 'individual' ? 'Individual Student' : 'Institution/School'}
-
-`;
-
-      if (formData.registrationType === 'individual') {
-        body += `Student Information:
-- Name: ${formData.studentName}
-- Age: ${formData.age}
-- Grade: ${formData.grade}
-- School: ${formData.school || 'Not specified'}
-
-Parent/Guardian Information:
-- Name: ${formData.parentName}
-- Email: ${formData.email}
-- Phone: ${formData.phone}
-- Address: ${formData.address || 'Not provided'}
-`;
-      } else {
-        body += `Institution Information:
-- Institution Name: ${formData.institutionName}
-- Institution Type: ${formData.institutionType}
-- Number of Students: ${formData.numberOfStudents}
-- Age Range: ${formData.ageRangeMin}-${formData.ageRangeMax} years
-- Contact Person: ${formData.contactPersonName} (${formData.contactPersonTitle})
-- Email: ${formData.institutionEmail}
-- Phone: ${formData.institutionPhone}
-- Address: ${formData.institutionAddress || 'Not provided'}
-- Preferred Program: ${formData.preferredProgram || 'Not specified'}
-`;
-      }
-
-      body += `
-Camp Details:
-- Camp: ${currentCamp.name}
-- Preferred Date: ${formData.preferredDate}
-- Preferred Time: ${formData.preferredTime}
-- Price: ₹${currentCamp.price.toLocaleString('en-IN')}${formData.registrationType === 'institution' ? ' (before bulk discount)' : ''}
-
-Experience Level: ${formData.experience}
-Medical Conditions: ${formData.medicalConditions || 'None'}
-Dietary Restrictions: ${formData.dietaryRestrictions || 'None'}
-Special Requests: ${formData.specialRequests || 'None'}
-
-Please process this registration and send confirmation details.
-      `;
-      
-      window.location.href = `mailto:hr@pro26.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    }, 2000);
+    } catch (error) {
+      alert('Failed to submit registration. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitSuccess) {
@@ -311,7 +263,7 @@ Please process this registration and send confirmation details.
                 {formData.registrationType === 'institution' ? (
                   <>
                     <li>• Receive customized proposal and pricing</li>
-                    <li>• Schedule program delivery details</li>
+                    {/* <li>• Schedule program delivery details</li> */}
                   </>
                 ) : (
                   <>
@@ -857,6 +809,23 @@ Please process this registration and send confirmation details.
                           placeholder="Enter school name"
                         />
                       </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Experience Level
+                        </label>
+                        <select
+                          name="experience"
+                          value={formData.experience}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                        >
+                          <option value="beginner">Beginner</option>
+                          <option value="some">Some Experience</option>
+                          <option value="advanced">Advanced</option>
+                        </select>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -943,7 +912,7 @@ Please process this registration and send confirmation details.
                       <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
                         <FaCalendar className="text-white text-2xl" />
                       </div>
-                      <h2 className="text-2xl font-bold text-gray-900 mb-2">Schedule & Preferences</h2>
+                      {/* <h2 className="text-2xl font-bold text-gray-900 mb-2">Schedule & Preferences</h2> */}
                       <p className="text-gray-600">Choose your preferred date, time, and experience level</p>
                     </div>
 
@@ -969,8 +938,8 @@ Please process this registration and send confirmation details.
                           Preferred Date *
                         </label>
                         <select
-                          name="preferredDate"
-                          value={formData.preferredDate}
+                          // name="preferredDate"
+                          // value={formData.preferredDate}
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
@@ -994,8 +963,8 @@ Please process this registration and send confirmation details.
                           Preferred Time *
                         </label>
                         <select
-                          name="preferredTime"
-                          value={formData.preferredTime}
+                          // name="preferredTime"
+                          // value={formData.preferredTime}
                           onChange={handleInputChange}
                           required
                           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
@@ -1043,8 +1012,8 @@ Please process this registration and send confirmation details.
                         </label>
                         <input
                           type="text"
-                          name="dietaryRestrictions"
-                          value={formData.dietaryRestrictions}
+                          // name="dietaryRestrictions"
+                          // value={formData.dietaryRestrictions}
                           onChange={handleInputChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
                           placeholder="Vegetarian, vegan, allergies, etc."
@@ -1084,8 +1053,7 @@ Please process this registration and send confirmation details.
                           <div>
                             <h4 className="font-semibold text-gray-900">Camp Details</h4>
                             <p className="text-gray-600">{currentCamp.name}</p>
-                            <p className="text-gray-600">{formData.preferredDate}</p>
-                            <p className="text-gray-600">{formData.preferredTime}</p>
+                            {/* Schedule fields removed */}
                           </div>
                         </div>
                       ) : (
@@ -1107,8 +1075,7 @@ Please process this registration and send confirmation details.
                           <div>
                             <h4 className="font-semibold text-gray-900">Camp Details</h4>
                             <p className="text-gray-600">{currentCamp.name}</p>
-                            <p className="text-gray-600">{formData.preferredDate}</p>
-                            <p className="text-gray-600">{formData.preferredTime}</p>
+                            {/* Schedule fields removed */}
                             {formData.preferredProgram && <p className="text-gray-600">Delivery: {formData.preferredProgram}</p>}
                           </div>
                         </div>
@@ -1120,8 +1087,8 @@ Please process this registration and send confirmation details.
                         Special Requests / Additional Information
                       </label>
                       <textarea
-                        name="specialRequests"
-                        value={formData.specialRequests}
+                          // name="specialRequests"
+                          // value={formData.specialRequests}
                         onChange={handleInputChange}
                         rows={3}
                         className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"

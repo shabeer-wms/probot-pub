@@ -105,7 +105,7 @@ const NotFound = () => {
           </nav>
 
           {/* Helpful links */}
-          <section className="p-6 bg-white rounded-xl shadow-lg border border-gray-100" aria-labelledby="helpful-links-heading">
+          <section className="p-6 bg-white rounded-xl shadow-lg border border-gray-200" aria-labelledby="helpful-links-heading">
             <h3 id="helpful-links-heading" className="text-lg font-semibold text-gray-800 mb-4 flex items-center justify-center">
               <Search className="mr-2 h-5 w-5 text-blue-600" aria-hidden="true" />
               Maybe you're looking for:
@@ -141,11 +141,6 @@ const NotFound = () => {
               </Link>
             </nav>
           </section>
-
-          {/* Fun robot message */}
-          <aside className="mt-8 text-gray-500 italic" role="complementary">
-            <p>"Beep boop! Let's get you back on track!" 🚀</p>
-          </aside>
         </div>
       </main>
     </>

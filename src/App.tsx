@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
@@ -18,6 +18,7 @@ import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
 import Blog from './pages/Blog';
 import NotFound from './pages/NotFound';
+import Admin from './pages/Admin';
 
 function App() {
   // Structured data for the homepage
@@ -55,10 +56,12 @@ function App() {
     }
   };
 
-  return (
-    <Router basename="/">
+  // Layout is rendered inside Router so we can access location with useLocation
+  function Layout() {
+    const location = useLocation();
+    return (
       <div className="min-h-screen bg-white">
-        <Header />
+        {location.pathname !== '/admin' && <Header />}
         <Routes>
           <Route path="/" element={<>
             <SEO
@@ -187,9 +190,16 @@ function App() {
             <CookiePolicy />
             <Footer />
           </>} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
+    );
+  }
+
+  return (
+    <Router basename="/">
+      <Layout />
     </Router>
   );
 }
