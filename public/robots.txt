@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://your-domain.com/ProBot/sitemap.xml
+Sitemap: https://probot.pro26.in/sitemap.xml
 
 # Disallow certain paths
 Disallow: /admin/

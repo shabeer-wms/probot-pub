@@ -40,7 +40,7 @@ export default function Hero() {
               </button>
               <button 
                 onClick={() => {
-                    window.open('ProBot/404', '_blank');
+                    window.open('/404', '_blank');
                 }}
                 className="bg-transparent border-3 border-red-400 text-red-600 px-8 py-4 rounded-3xl font-bold text-sm sm:text-base hover:bg-red-600 hover:text-white hover:border-red-600 transition-all duration-300 hover:scale-105 flex items-center justify-center group min-w-[180px] sm:min-w-[220px] h-[50px] sm:h-[60px]"
               >

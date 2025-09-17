@@ -14,19 +14,19 @@ const NotFound = () => {
       "@type": "Organization",
       "name": "ProBot",
       "description": "Robotics camps and STEM education for kids",
-      "url": "https://your-domain.com/ProBot",
-      "logo": "https://your-domain.com/ProBot/pro26-logo.png"
+      "url": "https://probot.pro26.in",
+      "logo": "https://probot.pro26.in/pro26-logo.png"
     },
     "potentialAction": [
       {
         "@type": "SearchAction",
-        "target": "https://your-domain.com/ProBot/search?q={search_term_string}",
+        "target": "https://probot.pro26.in/search?q={search_term_string}",
         "query-input": "required name=search_term_string"
       },
       {
         "@type": "Action",
         "name": "Go to Homepage",
-        "url": "https://your-domain.com/ProBot/"
+        "url": "https://probot.pro26.in/"
       }
     ]
   };

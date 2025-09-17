@@ -26,8 +26,8 @@ function App() {
     "@type": "Organization",
     "name": "ProBot",
     "description": "Robotics camps and STEM education programs for kids aged 6-16. Learn programming, engineering, and technology through hands-on robot building activities.",
-    "url": "https://your-domain.com/ProBot",
-    "logo": "https://your-domain.com/ProBot/pro26-logo.png",
+    "url": "https://probot.pro26.in",
+    "logo": "https://probot.pro26.in/pro26-logo.png",
     "contactPoint": {
       "@type": "ContactPoint",
       "telephone": "+1-XXX-XXX-XXXX",
@@ -45,7 +45,7 @@ function App() {
     ],
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://your-domain.com/ProBot/search?q={search_term_string}",
+      "target": "https://probot.pro26.in/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     },
     "offers": {

@@ -1,73 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://your-domain.com/ProBot/</loc>
+    <loc>https://probot.pro26.in/</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/camps</loc>
+    <loc>https://probot.pro26.in/camps</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/camps/one-day</loc>
+    <loc>https://probot.pro26.in/camps/one-day</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/camps/two-day</loc>
+    <loc>https://probot.pro26.in/camps/two-day</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/camps/online</loc>
+    <loc>https://probot.pro26.in/camps/online</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/about</loc>
+    <loc>https://probot.pro26.in/about</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/shop</loc>
+    <loc>https://probot.pro26.in/shop</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/blog</loc>
+    <loc>https://probot.pro26.in/blog</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/register</loc>
+    <loc>https://probot.pro26.in/register</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/privacy</loc>
+    <loc>https://probot.pro26.in/privacy</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/terms</loc>
+    <loc>https://probot.pro26.in/terms</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://your-domain.com/ProBot/cookies</loc>
+    <loc>https://probot.pro26.in/cookies</loc>
     <lastmod>2024-12-08</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
